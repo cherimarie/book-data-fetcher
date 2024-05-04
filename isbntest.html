@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>Books API Example</title>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script>
+      async function handleResponse(response) {
+          try {
+    // create a new handle
+    const newHandle = await window.showSaveFilePicker();
+
+    // create a FileSystemWritableFileStream to write to
+    const writableStream = await newHandle.createWritable();
+
+    // write our file
+    await writableStream.write("This is my file content");
+
+    // close the file and write the contents to disk.
+    await writableStream.close();
+  } catch (err) {
+    console.error(err.name, err.message);
+  }
+        console.log(response)
+      if(!response.items){console.log("nope "); return;}
+      for (var i = 0; i < response.items.length; i++) {
+        var item = response.items[i];
+        for (var j = 0; j < item.volumeInfo.industryIdentifiers.length; j++){
+          if(item.volumeInfo.industryIdentifiers[j].identifier == "9781581574036"){
+            console.log("got it")
+            // in production code, item.text should have the HTML entities escaped.
+        document.getElementById("content").innerHTML += "<br>" + `${item.volumeInfo.title} ${item.volumeInfo.subtitle}, ${item.volumeInfo.authors[0]}, ${item.volumeInfo.description}`;
+          }
+          console.log("i ", i, " id ", item.volumeInfo.industryIdentifiers[j].identifier)
+        }
+
+      }
+    }
+    </script>
+    <script src="https://www.googleapis.com/books/v1/volumes?q=+isbn:9781581574036&callback=handleResponse"></script>
+  </body>
+</html>
