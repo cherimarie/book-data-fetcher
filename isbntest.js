@@ -12,14 +12,18 @@ const req = https.request(options, (res) => {
 
 
   res.on('data', (response) => {
-    process.stdout.write(response);
+
+    // Qs: why does this execute 3x, though file is only written to 1x? Why does consolelog show buffer but stdout shows real response data?
+    // console.log(response)
+    // console.log("--------console ^ ---- stdout >")
+    // process.stdout.write(response);
     // let response = JSON.parse(d);
 
-    fs.appendFile('/Users/glaistig/fun-codez/isbnoutput.txt', response, err => {
+    fs.appendFile('./isbnoutput.txt', response, err => {
             if (err) {
-              console.error("write error", err);
+              console.error("write error ", err);
             } else {
-              // file written successfully
+              console.error("write success 💃")
             }
           });
 
