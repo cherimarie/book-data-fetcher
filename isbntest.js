@@ -30,12 +30,12 @@ function getBook(isbn){
         for (var i = 0; i < book.items.length; i++) {
           var item = book.items[i];
           for (var j = 0; j < item.volumeInfo.industryIdentifiers.length; j++){
-            console.log("i ", i, " id ", item.volumeInfo.industryIdentifiers[j].identifier)
+            console.log("book item index ", i, " isbn ", item.volumeInfo.industryIdentifiers[j].identifier)
 
             if(item.volumeInfo.industryIdentifiers[j].identifier == isbn){
               console.log("got it")
 
-              let content = `\n${item.volumeInfo.title} ${item.volumeInfo.subtitle || ''}*${item.volumeInfo.authors.join()}*${item.volumeInfo.description || '  '}*${isbn}`;
+              let content = `\n${item.volumeInfo.title} ${item.volumeInfo.subtitle || ''}*${item.volumeInfo.authors.join()}*${item.volumeInfo.description || '  '}*${isbn}*${item.volumeInfo.publishedDate}`;
 
               fs.appendFile('./output.csv', content, err => {
                 if (err) {
@@ -57,7 +57,7 @@ function getBook(isbn){
   });
 
   req.on('error', (e) => {
-    console.error(e);
+    console.error('Request error: ', e);
   });
   req.end();
 }
