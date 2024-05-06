@@ -2,7 +2,7 @@ const fs = require('node:fs');
 
 const https = require('node:https');
 
-let isbns = ["9781581574036"]
+let isbns = ["0961824239","0807011193", "9781497411074"]
 
 function getBook(isbn){
   const options = {
@@ -35,7 +35,7 @@ function getBook(isbn){
             if(item.volumeInfo.industryIdentifiers[j].identifier == isbn){
               console.log("got it")
 
-              let content = `\n${item.volumeInfo.title} ${item.volumeInfo.subtitle}*${item.volumeInfo.authors[0]}*${item.volumeInfo.description}*${isbn}`;
+              let content = `\n${item.volumeInfo.title} ${item.volumeInfo.subtitle || ''}*${item.volumeInfo.authors.join()}*${item.volumeInfo.description || '  '}*${isbn}`;
 
               fs.appendFile('./output.csv', content, err => {
                 if (err) {
