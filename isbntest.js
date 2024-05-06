@@ -30,9 +30,9 @@ const req = https.request(options, (res) => {
           if(item.volumeInfo.industryIdentifiers[j].identifier == "9781581574036"){
             console.log("got it")
             // in production code, item.text should have the HTML entities escaped.
-            let content = `${item.volumeInfo.title} ${item.volumeInfo.subtitle} \n ${item.volumeInfo.authors[0]} \n ${item.volumeInfo.description}`;
+            let content = `${item.volumeInfo.title} ${item.volumeInfo.subtitle} *${item.volumeInfo.authors[0]} *${item.volumeInfo.description}`;
 
-            fs.appendFile('./isbnoutput.txt', content, err => {
+            fs.appendFile('./output.csv', content, err => {
               if (err) {
                 console.error('Write error: ', err);
               } else {
